@@ -6,38 +6,58 @@ import matplotlib.pyplot as plt
 import scipy
 from scipy import stats
 
-def regression_plots(dataframe, *argv):
+print('Outside the first function')
+
+def regression_plots(data, *argv):
+    '''
+    Read in a specific dataframe and make individual regression plots for the designated species.
+
+    Parameters
+    ----------
+    data: str 
+        A string with the name of the dataframe to be used for regression/plotting.
+
+    species: str
+        Any number of species names to create plots for individually, formatted as Iris_setosa.
+    '''
+    dataframe = pd.read_csv(data)
+
+    test =  "{} is the data frame"
+
+
+    print('Inside the function...')
+
+    #print (test.format(data))
 
     for arg in argv:
-        species_dataframe = dataframe[dataframe.species == "Iris_{}".format(arg)]
 
+        print('inside the loop')
+        species_dataframe = dataframe[dataframe.species == (arg)]
+        
 
-#Plotting with matplotlib
-#dataframe = pd.read_csv("iris.csv")
-plt.scatter(dataframe.petal_length_cm, dataframe.sepal_length_cm)
-plt.xlabel("Petal length (cm)")
-plt.ylabel("Sepal length (cm)")
-plt.savefig("petal_v_sepal_length.png")
+        #Plotting with matplotlib
+        #dataframe = pd.read_csv("iris.csv")
+        plt.scatter(species_dataframe.petal_length_cm, species_dataframe.sepal_length_cm)
+        plt.xlabel("Petal length (cm)")
+        plt.ylabel("Sepal length (cm)")
+        plt.savefig("{}_petal_v_sepal_length.png".format(arg))
+        plt.clf()
+        
+        #Basic Stats with scipy
+        x = species_dataframe.petal_length_cm
+        y = species_dataframe.sepal_length_cm
+        regression = stats.linregress(x, y)
+        slope = regression.slope
+        intercept = regression.intercept
+        plt.scatter(x, y, label = 'Data')
+        plt.plot(x, slope * x + intercept, color = "orange", label = 'Fitted line')
+        plt.xlabel("Petal length (cm)")
+        plt.ylabel("Sepal length (cm)")
+        plt.legend()
+        plt.savefig("{}_petal_v_sepal_length_regress.png".format(arg))
 
+        plt.clf()
 
-#Basic Stats with scipy
-x = dataframe.petal_length_cm
-y = dataframe.sepal_length_cm
-regression = stats.linregress(x, y)
-slope = regression.slope
-intercept = regression.intercept
-plt.scatter(x, y, label = 'Data')
-plt.plot(x, slope * x + intercept, color = "orange", label = 'Fitted line')
-plt.xlabel("Petal length (cm)")
-plt.ylabel("Sepal length (cm)")
-plt.legend()
-plt.savefig("petal_v_sepal_length_regress.png")
+if __name__ == '__main__':
+    pass
 
-
-
-
-
-dataframe = pd.read_csv("iris.csv")
-
-
-if name
