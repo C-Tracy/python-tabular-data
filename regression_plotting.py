@@ -8,9 +8,30 @@ from scipy import stats
 
 print('Outside the first function')
 
-def regression_plots(data, *argv):
+
+def plot_all(data, *argv):
     '''
-    Read in a specific dataframe and make individual regression plots for the designated species.
+    Read in a specific dataframe and make both general and regression plots for the designated species.
+
+    Parameters
+    ----------
+    data: str 
+        A string with the name of the dataframe to be used for regression/plotting.
+
+    species: str
+        Any number of species names to create plots for individually, formatted as Iris_setosa.
+    '''
+
+    plot_data(data, *argv)
+    
+    regression_plots(data, *argv)
+
+
+
+
+def plot_data(data, *argv):
+    '''
+    Read in a specific dataframe and make general plots for the designated species.
 
     Parameters
     ----------
@@ -43,6 +64,33 @@ def regression_plots(data, *argv):
         plt.savefig("{}_petal_v_sepal_length.png".format(arg))
         plt.clf()
         
+
+def regression_plots(data, *argv):
+    '''
+    Read in a specific dataframe and make individual regression plots for the designated species.
+
+    Parameters
+    ----------
+    data: str 
+        A string with the name of the dataframe to be used for regression/plotting.
+
+    species: str
+        Any number of species names to create plots for individually, formatted as Iris_setosa.
+
+    '''
+    dataframe = pd.read_csv(data)
+
+    test =  "{} is the data frame"
+
+
+    print('Inside the function...')
+
+    #print (test.format(data))
+
+    for arg in argv:
+
+        print('inside the loop')
+        species_dataframe = dataframe[dataframe.species == (arg)]
         #Basic Stats with scipy
         x = species_dataframe.petal_length_cm
         y = species_dataframe.sepal_length_cm
