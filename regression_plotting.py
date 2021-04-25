@@ -3,6 +3,7 @@
 import pandas as pd
 #import matplotlib
 import matplotlib.pyplot as plt
+import sys
 import scipy
 from scipy import stats
 
@@ -107,5 +108,5 @@ def regression_plots(data, *argv):
         plt.clf()
 
 if __name__ == '__main__':
-    pass
+    plot_all(*sys.argv)
 
